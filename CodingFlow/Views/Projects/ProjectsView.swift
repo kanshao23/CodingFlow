@@ -32,6 +32,7 @@ struct ProjectsView: View {
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .font(.title2)
+                            .foregroundStyle(DesignTokens.Colors.primary)
                     }
                 }
             }
@@ -99,7 +100,7 @@ struct ProjectRow: View {
     let stats: ProjectStats
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: DesignTokens.Spacing.md) {
             // 项目图标
             ZStack {
                 Circle()
@@ -110,26 +111,28 @@ struct ProjectRow: View {
             .frame(width: 44, height: 44)
 
             // 项目信息
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: DesignTokens.Spacing.xs) {
                 Text(project.name)
-                    .font(.headline)
+                    .font(DesignTokens.Typography.headline)
+                    .foregroundStyle(DesignTokens.Colors.label)
 
                 if !project.projectDescription.isEmpty {
                     Text(project.projectDescription)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .font(DesignTokens.Typography.caption)
+                        .foregroundStyle(DesignTokens.Colors.secondaryLabel)
                         .lineLimit(1)
                 }
 
-                HStack(spacing: 12) {
+                HStack(spacing: DesignTokens.Spacing.md) {
                     Label("\(stats.total)", systemImage: "list.bullet")
                     Label("\(stats.completed)", systemImage: "checkmark.circle")
                     if stats.aiGenerated > 0 {
                         Label("\(stats.aiGenerated)", systemImage: "sparkles")
+                            .foregroundStyle(DesignTokens.Colors.aiAccent)
                     }
                 }
-                .font(.caption2)
-                .foregroundStyle(.secondary)
+                .font(DesignTokens.Typography.caption2)
+                .foregroundStyle(DesignTokens.Colors.secondaryLabel)
             }
 
             Spacer()
@@ -138,7 +141,7 @@ struct ProjectRow: View {
             ProgressRing(progress: stats.completionRate, color: Color(hex: project.colorHex), lineWidth: 4)
                 .frame(width: 44, height: 44)
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, DesignTokens.Spacing.xs)
     }
 }
 
@@ -175,7 +178,7 @@ struct CreateProjectSheet: View {
                 }
 
                 Section("Icon") {
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 6), spacing: 12) {
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 6), spacing: DesignTokens.Spacing.md) {
                         ForEach(icons, id: \.self) { icon in
                             Button {
                                 selectedIcon = icon
@@ -191,11 +194,11 @@ struct CreateProjectSheet: View {
                             .buttonStyle(.plain)
                         }
                     }
-                    .padding(.vertical, 8)
+                    .padding(.vertical, DesignTokens.Spacing.sm)
                 }
 
                 Section("Color") {
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5), spacing: 12) {
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5), spacing: DesignTokens.Spacing.md) {
                         ForEach(colors, id: \.self) { color in
                             Button {
                                 selectedColor = color
@@ -214,12 +217,12 @@ struct CreateProjectSheet: View {
                             .buttonStyle(.plain)
                         }
                     }
-                    .padding(.vertical, 8)
+                    .padding(.vertical, DesignTokens.Spacing.sm)
                 }
 
                 // 预览
                 Section("Preview") {
-                    HStack(spacing: 12) {
+                    HStack(spacing: DesignTokens.Spacing.md) {
                         ZStack {
                             Circle()
                                 .fill(Color(hex: selectedColor).opacity(0.2))
@@ -230,11 +233,12 @@ struct CreateProjectSheet: View {
 
                         VStack(alignment: .leading) {
                             Text(name.isEmpty ? "Project Name" : name)
-                                .font(.headline)
+                                .font(DesignTokens.Typography.headline)
+                                .foregroundStyle(DesignTokens.Colors.label)
                             if !description.isEmpty {
                                 Text(description)
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
+                                    .font(DesignTokens.Typography.caption)
+                                    .foregroundStyle(DesignTokens.Colors.secondaryLabel)
                             }
                         }
                     }

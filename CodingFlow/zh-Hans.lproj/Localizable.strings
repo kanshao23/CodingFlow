@@ -1,0 +1,102 @@
+/*
+  Localizable.strings (Chinese Simplified)
+  CodingFlow
+
+  简体中文本地化字符串
+*/
+
+// MARK: - Common (通用)
+"ok" = "确定";
+"cancel" = "取消";
+"save" = "保存";
+"delete" = "删除";
+"edit" = "编辑";
+"done" = "完成";
+"retry" = "重试";
+"search" = "搜索";
+
+// MARK: - Tabs (标签页)
+"issues" = "任务";
+"projects" = "项目";
+"ai_assistant" = "AI 助手";
+"cycles" = "周期";
+"settings" = "设置";
+
+// MARK: - Issues (任务)
+"all_issues" = "所有任务";
+"no_issues" = "暂无任务";
+"no_issues_description" = "创建第一个任务开始使用";
+"no_results" = "未找到结果";
+"no_results_description" = "尝试调整筛选条件";
+"new_issue" = "新建任务";
+"issue_title" = "任务标题";
+"issue_description" = "描述（可选）";
+"create_issue" = "创建任务";
+"created_today" = "今天创建";
+
+// MARK: - Issue Status (任务状态)
+"status_backlog" = "待办";
+"status_todo" = "进行中";
+"status_in_progress" = "处理中";
+"status_in_review" = "审核中";
+"status_done" = "已完成";
+
+// MARK: - Issue Priority (任务优先级)
+"priority_urgent" = "紧急";
+"priority_high" = "高";
+"priority_medium" = "中";
+"priority_low" = "低";
+
+// MARK: - Issue Type (任务类型)
+"type_epic" = "史诗";
+"type_story" = "故事";
+"type_task" = "任务";
+"type_bug" = "缺陷";
+"type_subtask" = "子任务";
+
+// MARK: - Filters (筛选)
+"filter" = "筛选";
+"all_projects" = "所有项目";
+"all_statuses" = "所有状态";
+"all_priorities" = "所有优先级";
+"show_ai_only" = "仅显示 AI";
+
+// MARK: - Projects (项目)
+"all_projects" = "所有项目";
+"no_projects" = "暂无项目";
+"no_projects_description" = "创建第一个项目开始组织任务";
+"new_project" = "新建项目";
+"project_name" = "项目名称";
+"project_description" = "描述（可选）";
+
+// MARK: - Settings (设置)
+"settings" = "设置";
+"app_theme" = "应用主题";
+"theme_system" = "跟随系统";
+"theme_light" = "浅色";
+"theme_dark" = "深色";
+
+// MARK: - Accessibility (可访问性)
+"double_tap_view_details" = "双击查看详情";
+"double_tap_edit" = "双击编辑";
+"swipe_delete" = "左滑删除";
+"swipe_actions" = "滑动查看更多操作";
+"ai_generated" = "AI 生成";
+"tags_count" = "%d 个标签";
+
+// MARK: - AI (人工智能)
+"ai_tools" = "AI 工具";
+"ai_usage" = "AI 使用情况";
+"ai_warnings" = "AI 警告";
+"sparkles" = "AI";
+
+// MARK: - Shapes (形状 - 为色盲用户提供)
+"shape_circle" = "圆形";
+"shape_square" = "方形";
+"shape_diamond" = "菱形";
+"shape_triangle" = "三角形";
+
+// MARK: - Trends (趋势)
+"trend_up" = "上升";
+"trend_down" = "下降";
+"trend_neutral" = "平稳";

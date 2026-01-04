@@ -22,14 +22,16 @@ struct IssueCard: View {
 
     var body: some View {
         Button(action: { onTap?() }) {
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: DesignTokens.Spacing.sm) {
                 // 顶部：类型图标 + 编号 + 项目
                 HStack(spacing: 6) {
                     IssueTypeIcon(type: issue.type)
+                        .accessibilityHidden(true) // 图标包含在主标签中
 
                     Text("#\(issue.issueNumber)")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
+                        .font(DesignTokens.Typography.caption2)
+                        .foregroundStyle(DesignTokens.Colors.secondaryLabel)
+                        .accessibilityHidden(true) // 编号包含在主标签中
 
                     Spacer()
 
@@ -38,6 +40,7 @@ struct IssueCard: View {
                         HStack(spacing: 3) {
                             Image(systemName: project.icon)
                                 .font(.system(size: 9))
+                                .accessibilityHidden(true)
                             Text(project.name)
                                 .font(.system(size: 10))
                                 .fontWeight(.medium)
@@ -47,56 +50,68 @@ struct IssueCard: View {
                         .padding(.vertical, 2)
                         .background(Color(hex: project.colorHex).opacity(0.15))
                         .clipShape(Capsule())
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("项目 \(project.name)")
                     }
                 }
 
                 // 标题
                 Text(issue.title)
-                    .font(.subheadline)
+                    .font(DesignTokens.Typography.subheadline)
                     .fontWeight(.medium)
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(DesignTokens.Colors.label)
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
+                    .accessibilityAddTraits(.isHeader) // 标题是重要信息
 
                 // 底部：优先级 + AI + 标签
-                HStack(spacing: 6) {
+                HStack(spacing: DesignTokens.Spacing.sm) {
                     PriorityBadge(priority: issue.priority)
+                        .accessibilityHidden(true) // 优先级包含在主标签中
 
                     if issue.isAIGenerated {
                         HStack(spacing: 2) {
                             Image(systemName: "sparkles")
                                 .font(.system(size: 9))
+                                .accessibilityHidden(true)
                             Text("AI")
                                 .font(.system(size: 10))
                                 .fontWeight(.medium)
                         }
-                        .foregroundStyle(.cyan)
+                        .foregroundStyle(DesignTokens.Colors.aiAccent)
                         .padding(.horizontal, 5)
                         .padding(.vertical, 2)
-                        .background(.cyan.opacity(0.15))
+                        .background(DesignTokens.Colors.aiAccent.opacity(0.15))
                         .clipShape(Capsule())
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("AI 生成")
                     }
 
                     if let labels = issue.labels, !labels.isEmpty {
                         HStack(spacing: 2) {
                             Image(systemName: "tag.fill")
                                 .font(.system(size: 9))
+                                .accessibilityHidden(true)
                             Text("\(labels.count)")
                                 .font(.system(size: 10))
                         }
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(DesignTokens.Colors.secondaryLabel)
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("\(labels.count) 个标签")
                     }
                 }
             }
             .padding(10)
-            .background(Color(.systemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .background(DesignTokens.Colors.background)
+            .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.md))
             .overlay(
-                RoundedRectangle(cornerRadius: 10)
+                RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.md)
                     .stroke(Color(.separator).opacity(0.5), lineWidth: 0.5)
             )
         }
         .buttonStyle(.plain)
+        .accessibilityLabel(buildAccessibilityLabel())
+        .accessibilityHint("双击查看详情")
         .contextMenu {
             ForEach(IssueStatus.allCases) { status in
                 Button {
@@ -106,6 +121,43 @@ struct IssueCard: View {
                 }
             }
         }
+    }
+
+    // 构建可访问性标签
+    private func buildAccessibilityLabel() -> String {
+        var parts: [String] = []
+
+        // 类型
+        parts.append(issue.type.displayName)
+
+        // 编号
+        parts.append("#\(issue.issueNumber)")
+
+        // 标题（最重要）
+        parts.append(issue.title)
+
+        // 状态
+        parts.append(issue.status.displayName)
+
+        // 优先级
+        parts.append(issue.priority.displayName)
+
+        // 项目
+        if let project = issue.project {
+            parts.append("项目 \(project.name)")
+        }
+
+        // AI 标识
+        if issue.isAIGenerated {
+            parts.append("AI 生成")
+        }
+
+        // 标签数量
+        if let labels = issue.labels, !labels.isEmpty {
+            parts.append("\(labels.count) 个标签")
+        }
+
+        return parts.joined(separator: ", ")
     }
 }
 
@@ -117,26 +169,16 @@ struct StatusBadge: View {
     var body: some View {
         HStack(spacing: 4) {
             Image(systemName: status.icon)
-                .font(.caption)
+                .font(DesignTokens.Typography.caption)
             Text(status.displayName)
-                .font(.caption)
+                .font(DesignTokens.Typography.caption)
                 .fontWeight(.medium)
         }
-        .foregroundStyle(statusColor)
-        .padding(.horizontal, 8)
-        .padding(.vertical, 4)
-        .background(statusColor.opacity(0.15))
+        .foregroundStyle(DesignTokens.Colors.statusColor(status))
+        .padding(.horizontal, DesignTokens.Spacing.sm)
+        .padding(.vertical, DesignTokens.Spacing.xs)
+        .background(DesignTokens.Colors.statusColor(status).opacity(0.15))
         .clipShape(Capsule())
-    }
-
-    private var statusColor: Color {
-        switch status {
-        case .backlog: return .gray
-        case .todo: return .blue
-        case .inProgress: return .orange
-        case .inReview: return .purple
-        case .done: return .green
-        }
     }
 }
 
@@ -148,20 +190,11 @@ struct PriorityBadge: View {
     var body: some View {
         HStack(spacing: 2) {
             Image(systemName: priority.icon)
-                .font(.caption2)
+                .font(DesignTokens.Typography.caption2)
             Text(priority.displayName)
-                .font(.caption2)
+                .font(DesignTokens.Typography.caption2)
         }
-        .foregroundStyle(priorityColor)
-    }
-
-    private var priorityColor: Color {
-        switch priority {
-        case .urgent: return .red
-        case .high: return .orange
-        case .medium: return .yellow
-        case .low: return .blue
-        }
+        .foregroundStyle(DesignTokens.Colors.priorityColor(priority))
     }
 }
 
@@ -219,11 +252,11 @@ struct AIBadge: View {
                 Image(systemName: "sparkles")
                 Text(tool.replacingOccurrences(of: "_", with: " ").capitalized)
             }
-            .font(.caption2)
-            .foregroundStyle(.cyan)
+            .font(DesignTokens.Typography.caption2)
+            .foregroundStyle(DesignTokens.Colors.aiAccent)
             .padding(.horizontal, 6)
             .padding(.vertical, 2)
-            .background(.cyan.opacity(0.15))
+            .background(DesignTokens.Colors.aiAccent.opacity(0.15))
             .clipShape(Capsule())
         }
     }
@@ -282,5 +315,5 @@ extension Color {
         )
     }
     .padding()
-    .background(Color(.systemGroupedBackground))
+    .background(DesignTokens.Colors.groupedBackground)
 }

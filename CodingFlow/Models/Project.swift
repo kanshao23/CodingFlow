@@ -246,6 +246,15 @@ final class Issue {
     var createdAt: Date
     var updatedAt: Date
 
+    // 索引优化 - 为常用查询字段添加索引
+    // Index optimization - Add indexes for frequently queried fields
+    #Index<Int>([\.issueNumber], name: "IssueNumber")
+    #Index<IssueStatus>([\.status], name: "Status")
+    #Index<IssuePriority>([\.priority], name: "Priority")
+    #Index<Date>([\.createdAt], name: "CreatedAt")
+    #Index<Date>([\.updatedAt], name: "UpdatedAt")
+    #Index<Bool>([\.isAIGenerated], name: "IsAIGenerated")
+
     // 时间追踪
     var estimatedHours: Double?
     var actualHours: Double?
