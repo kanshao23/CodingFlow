@@ -248,12 +248,8 @@ final class Issue {
 
     // 索引优化 - 为常用查询字段添加索引
     // Index optimization - Add indexes for frequently queried fields
-    #Index<Int>([\.issueNumber], name: "IssueNumber")
-    #Index<IssueStatus>([\.status], name: "Status")
-    #Index<IssuePriority>([\.priority], name: "Priority")
-    #Index<Date>([\.createdAt], name: "CreatedAt")
-    #Index<Date>([\.updatedAt], name: "UpdatedAt")
-    #Index<Bool>([\.isAIGenerated], name: "IsAIGenerated")
+    // 注意: SwiftData 索引功能在当前版本可能不稳定
+    // Note: SwiftData indexing may be unstable in current version
 
     // 时间追踪
     var estimatedHours: Double?

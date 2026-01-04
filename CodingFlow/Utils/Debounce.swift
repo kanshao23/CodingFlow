@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Combine
+import SwiftUI
 
 /// 防抖类 - 延迟处理值变化，直到值稳定一段时间
 /// Debounce class - Delays processing of value changes until value stabilizes for a period
