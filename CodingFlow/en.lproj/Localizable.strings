@@ -1,0 +1,102 @@
+/*
+  Localizable.strings (English)
+  CodingFlow
+
+  English localization strings
+*/
+
+// MARK: - Common
+"ok" = "OK";
+"cancel" = "Cancel";
+"save" = "Save";
+"delete" = "Delete";
+"edit" = "Edit";
+"done" = "Done";
+"retry" = "Retry";
+"search" = "Search";
+
+// MARK: - Tabs
+"issues" = "Issues";
+"projects" = "Projects";
+"ai_assistant" = "AI Assistant";
+"cycles" = "Cycles";
+"settings" = "Settings";
+
+// MARK: - Issues
+"all_issues" = "All Issues";
+"no_issues" = "No Issues";
+"no_issues_description" = "Create your first issue to get started";
+"no_results" = "No Results";
+"no_results_description" = "Try adjusting your filters";
+"new_issue" = "New Issue";
+"issue_title" = "Issue title";
+"issue_description" = "Description (optional)";
+"create_issue" = "Create Issue";
+"created_today" = "Created today";
+
+// MARK: - Issue Status
+"status_backlog" = "Backlog";
+"status_todo" = "To Do";
+"status_in_progress" = "In Progress";
+"status_in_review" = "In Review";
+"status_done" = "Done";
+
+// MARK: - Issue Priority
+"priority_urgent" = "Urgent";
+"priority_high" = "High";
+"priority_medium" = "Medium";
+"priority_low" = "Low";
+
+// MARK: - Issue Type
+"type_epic" = "Epic";
+"type_story" = "Story";
+"type_task" = "Task";
+"type_bug" = "Bug";
+"type_subtask" = "Subtask";
+
+// MARK: - Filters
+"filter" = "Filter";
+"all_projects" = "All Projects";
+"all_statuses" = "All Statuses";
+"all_priorities" = "All Priorities";
+"show_ai_only" = "Show AI Only";
+
+// MARK: - Projects
+"all_projects" = "All Projects";
+"no_projects" = "No Projects";
+"no_projects_description" = "Create your first project to start organizing issues";
+"new_project" = "New Project";
+"project_name" = "Project name";
+"project_description" = "Description (optional)";
+
+// MARK: - Settings
+"settings" = "Settings";
+"app_theme" = "App Theme";
+"theme_system" = "System";
+"theme_light" = "Light";
+"theme_dark" = "Dark";
+
+// MARK: - Accessibility
+"double_tap_view_details" = "Double tap to view details";
+"double_tap_edit" = "Double tap to edit";
+"swipe_delete" = "Swipe left to delete";
+"swipe_actions" = "Swipe for more actions";
+"ai_generated" = "AI Generated";
+"tags_count" = "%d tags";
+
+// MARK: - AI
+"ai_tools" = "AI Tools";
+"ai_usage" = "AI Usage";
+"ai_warnings" = "AI Warnings";
+"sparkles" = "AI";
+
+// MARK: - Shapes (for colorblind users)
+"shape_circle" = "Circle";
+"shape_square" = "Square";
+"shape_diamond" = "Diamond";
+"shape_triangle" = "Triangle";
+
+// MARK: - Trends
+"trend_up" = "Up";
+"trend_down" = "Down";
+"trend_neutral" = "Neutral";

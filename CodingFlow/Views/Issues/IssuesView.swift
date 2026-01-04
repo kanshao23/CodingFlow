@@ -32,7 +32,7 @@ struct IssuesView: View {
                     IssueListView(viewModel: vm, selectedIssue: $selectedIssue)
                 }
             }
-            .background(Color(.systemGroupedBackground))
+            .background(DesignTokens.Colors.groupedBackground)
             .navigationTitle("Issues")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -44,7 +44,7 @@ struct IssuesView: View {
                     Button(action: { showingCreateSheet.toggle() }) {
                         Image(systemName: "plus.circle.fill")
                             .font(.title2)
-                            .foregroundStyle(.blue)
+                            .foregroundStyle(DesignTokens.Colors.primary)
                     }
                 }
             }
@@ -64,14 +64,15 @@ struct IssuesView: View {
 
     private var headerSection: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: DesignTokens.Spacing.xs) {
                 Text("Issues")
-                    .font(.title2)
+                    .font(DesignTokens.Typography.title2)
                     .fontWeight(.bold)
+                    .foregroundStyle(DesignTokens.Colors.label)
 
                 Text("All issues")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .font(DesignTokens.Typography.caption)
+                    .foregroundStyle(DesignTokens.Colors.secondaryLabel)
             }
 
             Spacer()
@@ -80,21 +81,21 @@ struct IssuesView: View {
             if let vm = viewModel {
                 let todayCount = vm.getTodayIssues().count
                 if todayCount > 0 {
-                    VStack(alignment: .trailing, spacing: 2) {
+                    VStack(alignment: .trailing, spacing: DesignTokens.Spacing.xxs) {
                         Text("\(todayCount)")
-                            .font(.title3)
+                            .font(DesignTokens.Typography.title3)
                             .fontWeight(.bold)
-                            .foregroundStyle(.blue)
+                            .foregroundStyle(DesignTokens.Colors.primary)
                         Text("today")
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .font(DesignTokens.Typography.caption2)
+                            .foregroundStyle(DesignTokens.Colors.secondaryLabel)
                     }
                 }
             }
         }
         .padding(.horizontal)
-        .padding(.vertical, 12)
-        .background(Color(.systemBackground))
+        .padding(.vertical, DesignTokens.Spacing.md)
+        .background(DesignTokens.Colors.background)
     }
 
     private var sortMenu: some View {
@@ -136,15 +137,15 @@ struct FilterBarView: View {
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 10) {
+            HStack(spacing: DesignTokens.Spacing.sm) {
                 // 搜索框
-                HStack(spacing: 8) {
+                HStack(spacing: DesignTokens.Spacing.sm) {
                     Image(systemName: "magnifyingglass")
                         .font(.system(size: 14))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(DesignTokens.Colors.secondaryLabel)
 
                     TextField("Search...", text: $viewModel.searchText)
-                        .font(.subheadline)
+                        .font(DesignTokens.Typography.subheadline)
                         .textFieldStyle(.plain)
                         .frame(width: 120)
 
@@ -154,14 +155,14 @@ struct FilterBarView: View {
                         } label: {
                             Image(systemName: "xmark.circle.fill")
                                 .font(.system(size: 14))
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(DesignTokens.Colors.secondaryLabel)
                         }
                     }
                 }
-                .padding(.horizontal, 12)
+                .padding(.horizontal, DesignTokens.Spacing.md)
                 .padding(.vertical, 10)
-                .background(Color(.systemGray6))
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .background(DesignTokens.Colors.secondaryBackground.opacity(0.5))
+                .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.md))
                 .frame(width: 180)
 
                 // 项目筛选按钮
@@ -185,23 +186,23 @@ struct FilterBarView: View {
                             Image(systemName: project.icon)
                                 .font(.system(size: 12))
                             Text(project.name)
-                                .font(.subheadline)
+                                .font(DesignTokens.Typography.subheadline)
                                 .fontWeight(.medium)
                         } else {
                             Image(systemName: "folder")
                                 .font(.system(size: 12))
                             Text("Project")
-                                .font(.subheadline)
+                                .font(DesignTokens.Typography.subheadline)
                         }
                         Image(systemName: "chevron.down")
                             .font(.system(size: 10))
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(DesignTokens.Colors.secondaryLabel)
                     }
-                    .foregroundStyle(viewModel.selectedProject != nil ? Color(hex: viewModel.selectedProject!.colorHex) : .secondary)
-                    .padding(.horizontal, 12)
+                    .foregroundStyle(viewModel.selectedProject != nil ? Color(hex: viewModel.selectedProject!.colorHex) : DesignTokens.Colors.secondaryLabel)
+                    .padding(.horizontal, DesignTokens.Spacing.md)
                     .padding(.vertical, 10)
-                    .background(Color(.systemGray6))
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .background(DesignTokens.Colors.secondaryBackground.opacity(0.5))
+                    .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.md))
                 }
 
                 // 状态筛选
@@ -209,7 +210,7 @@ struct FilterBarView: View {
                     ActiveFilterChip(
                         icon: status.icon,
                         label: status.displayName,
-                        color: statusColor(status)
+                        color: DesignTokens.Colors.statusColor(status)
                     ) {
                         viewModel.selectedStatus = nil
                     }
@@ -220,7 +221,7 @@ struct FilterBarView: View {
                     ActiveFilterChip(
                         icon: priority.icon,
                         label: priority.displayName,
-                        color: priorityColor(priority)
+                        color: DesignTokens.Colors.priorityColor(priority)
                     ) {
                         viewModel.selectedPriority = nil
                     }
@@ -231,7 +232,7 @@ struct FilterBarView: View {
                     ActiveFilterChip(
                         icon: "sparkles",
                         label: "AI",
-                        color: .cyan
+                        color: DesignTokens.Colors.aiAccent
                     ) {
                         viewModel.showOnlyAI = false
                     }
@@ -269,40 +270,21 @@ struct FilterBarView: View {
                         Image(systemName: "line.3.horizontal.decrease.circle")
                             .font(.system(size: 16))
                         Text("Filter")
-                            .font(.subheadline)
+                            .font(DesignTokens.Typography.subheadline)
                     }
-                    .foregroundStyle(.secondary)
-                    .padding(.horizontal, 12)
+                    .foregroundStyle(DesignTokens.Colors.secondaryLabel)
+                    .padding(.horizontal, DesignTokens.Spacing.md)
                     .padding(.vertical, 10)
-                    .background(Color(.systemGray6))
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .background(DesignTokens.Colors.secondaryBackground.opacity(0.5))
+                    .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.md))
                 }
 
                 Spacer(minLength: 0)
             }
             .padding(.horizontal)
-            .padding(.vertical, 8)
+            .padding(.vertical, DesignTokens.Spacing.sm)
         }
-        .background(Color(.systemBackground))
-    }
-
-    private func statusColor(_ status: IssueStatus) -> Color {
-        switch status {
-        case .backlog: return .gray
-        case .todo: return .blue
-        case .inProgress: return .orange
-        case .inReview: return .purple
-        case .done: return .green
-        }
-    }
-
-    private func priorityColor(_ priority: IssuePriority) -> Color {
-        switch priority {
-        case .urgent: return .red
-        case .high: return .orange
-        case .medium: return .yellow
-        case .low: return .blue
-        }
+        .background(DesignTokens.Colors.background)
     }
 }
 
@@ -320,16 +302,16 @@ struct ActiveFilterChip: View {
                 Image(systemName: icon)
                     .font(.system(size: 12))
                 Text(label)
-                    .font(.subheadline)
+                    .font(DesignTokens.Typography.subheadline)
                     .fontWeight(.medium)
                 Image(systemName: "xmark")
                     .font(.system(size: 10))
             }
             .foregroundStyle(.white)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
+            .padding(.horizontal, DesignTokens.Spacing.md)
+            .padding(.vertical, DesignTokens.Spacing.sm)
             .background(color)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .clipShape(RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.md))
         }
         .buttonStyle(.plain)
     }
@@ -370,48 +352,38 @@ struct IssueListView: View {
                                 viewModel.deleteIssues(issuesToDelete)
                             }
                         } header: {
-                            HStack(spacing: 8) {
+                            HStack(spacing: DesignTokens.Spacing.sm) {
                                 ZStack {
                                     Circle()
-                                        .fill(statusColor(status).opacity(0.2))
+                                        .fill(DesignTokens.Colors.statusColor(status).opacity(0.2))
                                         .frame(width: 24, height: 24)
                                     Image(systemName: status.icon)
                                         .font(.system(size: 12))
-                                        .foregroundStyle(statusColor(status))
+                                        .foregroundStyle(DesignTokens.Colors.statusColor(status))
                                 }
 
                                 Text(status.displayName)
-                                    .font(.subheadline)
+                                    .font(DesignTokens.Typography.subheadline)
                                     .fontWeight(.semibold)
 
                                 Spacer()
 
                                 Text("\(statusIssues.count)")
-                                    .font(.caption)
+                                    .font(DesignTokens.Typography.caption)
                                     .fontWeight(.semibold)
-                                    .foregroundStyle(.secondary)
-                                    .padding(.horizontal, 8)
+                                    .foregroundStyle(DesignTokens.Colors.secondaryLabel)
+                                    .padding(.horizontal, DesignTokens.Spacing.sm)
                                     .padding(.vertical, 2)
-                                    .background(Color(.systemGray5))
+                                    .background(DesignTokens.Colors.secondaryBackground.opacity(0.5))
                                     .clipShape(Capsule())
                             }
-                            .padding(.bottom, 8)
+                            .padding(.bottom, DesignTokens.Spacing.sm)
                         }
                     }
                 }
             }
             .listStyle(.plain)
             .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
-        }
-    }
-
-    private func statusColor(_ status: IssueStatus) -> Color {
-        switch status {
-        case .backlog: return .gray
-        case .todo: return .blue
-        case .inProgress: return .orange
-        case .inReview: return .purple
-        case .done: return .green
         }
     }
 }

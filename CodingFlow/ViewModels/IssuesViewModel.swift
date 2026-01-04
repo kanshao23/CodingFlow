@@ -39,26 +39,54 @@ final class IssuesViewModel {
     // MARK: - Fetch Issues
 
     func fetchIssues() -> [Issue] {
+        // 性能优化: 尽可能使用数据库层面的 predicate
+        // Performance optimization: Use database-level predicates when possible
+        var predicate: Predicate<Issue>?
+
+        // 计算启用的筛选器数量
+        let activeFilterCount = [
+            selectedProject, selectedStatus, selectedPriority
+        ].compactMap { $0 }.count +
+        (showOnlyAI ? 1 : 0)
+
+        // 只有一个筛选条件时，使用 predicate (数据库层面过滤)
+        // When only one filter is active, use predicate (database-level filtering)
+        if activeFilterCount == 1 {
+            if let project = selectedProject {
+                predicate = #Predicate<Issue> { $0.project?.id == project.id }
+            } else if let status = selectedStatus {
+                predicate = #Predicate<Issue> { $0.status == status }
+            } else if let priority = selectedPriority {
+                predicate = #Predicate<Issue> { $0.priority == priority }
+            } else if showOnlyAI {
+                predicate = #Predicate<Issue> { $0.isAIGenerated == true }
+            }
+        }
+
         let descriptor = FetchDescriptor<Issue>(
+            predicate: predicate,
             sortBy: buildSortDescriptors()
         )
 
         do {
             var issues = try modelContext.fetch(descriptor)
 
-            // 应用筛选条件
-            if let project = selectedProject {
+            // 应用其余筛选条件 (内存过滤)
+            // Apply remaining filters (in-memory filtering)
+            if let project = selectedProject, predicate == nil {
                 issues = issues.filter { $0.project?.id == project.id }
             }
-            if let status = selectedStatus {
+            if let status = selectedStatus, predicate == nil {
                 issues = issues.filter { $0.status == status }
             }
-            if let priority = selectedPriority {
+            if let priority = selectedPriority, predicate == nil {
                 issues = issues.filter { $0.priority == priority }
             }
-            if showOnlyAI {
+            if showOnlyAI, predicate == nil {
                 issues = issues.filter { $0.isAIGenerated }
             }
+
+            // 搜索文本筛选 (必须在内存中进行)
             if !searchText.isEmpty {
                 issues = issues.filter {
                     $0.title.localizedStandardContains(searchText) ||
